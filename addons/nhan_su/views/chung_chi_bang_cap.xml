@@ -2,15 +2,18 @@
 <odoo>
     <data>
         <record id="view_chung_chi_bang_cap_form" model="ir.ui.view">
-            <field name="name">chung_chi_bang_cap</field>
+            <field name="name">chung.chi.bang.cap.form</field>
             <field name="model">chung_chi_bang_cap</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Chứng chỉ/Bằng cấp">
                     <sheet>
-                        <div class="oe_read_only" style="font-size:25px">Chứng chỉ bằng cấp</div>
-                        <group col="4" string="Thông tin chung">
+                        <group>
                             <field name="ma_chung_chi_bang_cap"/>
                             <field name="ten_chung_chi_bang_cap"/>
+                            <field name="nhom"/>
+                        </group>
+                        <group string="Mô tả">
+                            <field name="mo_ta"/>
                         </group>
                     </sheet>
                 </form>
@@ -18,12 +21,13 @@
         </record>
 
         <record id="view_chung_chi_bang_cap_tree" model="ir.ui.view">
-            <field name="name">chung_chi_bang_cap</field>
+            <field name="name">chung.chi.bang.cap.tree</field>
             <field name="model">chung_chi_bang_cap</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Chứng chỉ/Bằng cấp">
                     <field name="ma_chung_chi_bang_cap"/>
                     <field name="ten_chung_chi_bang_cap"/>
+                    <field name="nhom"/>
                 </tree>
             </field>
         </record>
@@ -31,20 +35,22 @@
         <record model="ir.ui.view" id="chung_chi_bang_cap_search">
             <field name="model">chung_chi_bang_cap</field>
             <field name="arch" type="xml">
-                <search>
+                <search string="Tìm chứng chỉ/bằng cấp">
                     <field name="ma_chung_chi_bang_cap"/>
                     <field name="ten_chung_chi_bang_cap"/>
+                    <field name="nhom"/>
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Nhóm" name="group_nhom" context="{'group_by': 'nhom'}"/>
+                    </group>
                 </search>
             </field>
         </record>
 
         <record id="action_chung_chi_bang_cap" model="ir.actions.act_window">
-            <field name="name">Chứng chỉ bằng cấp</field>
+            <field name="name">Chứng chỉ/Bằng cấp</field>
             <field name="res_model">chung_chi_bang_cap</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref = "chung_chi_bang_cap_search"/>
+            <field name="search_view_id" ref="chung_chi_bang_cap_search"/>
         </record>
     </data>
 </odoo>
-        
-    

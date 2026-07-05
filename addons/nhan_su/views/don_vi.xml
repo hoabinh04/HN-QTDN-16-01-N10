@@ -2,28 +2,47 @@
 <odoo>
     <data>
         <record id="view_don_vi_form" model="ir.ui.view">
-            <field name="name">don_vi</field>
+            <field name="name">don.vi.form</field>
             <field name="model">don_vi</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Đơn vị">
                     <sheet>
-                        <div class="oe_read_only" style="font-size:25px">Đơn vị</div>
-                        <group col="4" string="Thông tin chung">
+                        <group>
                             <field name="ma_don_vi"/>
                             <field name="ten_don_vi"/>
+                            <field name="don_vi_cha_id"/>
+                            <field name="so_luong_nhan_vien" readonly="1"/>
                         </group>
+                        <notebook>
+                            <page string="Mô tả">
+                                <field name="mo_ta"/>
+                            </page>
+                            <page string="Nhân viên hiện tại">
+                                <field name="nhan_vien_ids" readonly="1">
+                                    <tree>
+                                        <field name="ma_dinh_danh"/>
+                                        <field name="ho_va_ten"/>
+                                        <field name="chuc_vu_hien_tai_id"/>
+                                        <field name="email"/>
+                                        <field name="so_dien_thoai"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
 
         <record id="view_don_vi_tree" model="ir.ui.view">
-            <field name="name">don_vi</field>
+            <field name="name">don.vi.tree</field>
             <field name="model">don_vi</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Đơn vị">
                     <field name="ma_don_vi"/>
                     <field name="ten_don_vi"/>
+                    <field name="don_vi_cha_id"/>
+                    <field name="so_luong_nhan_vien"/>
                 </tree>
             </field>
         </record>
@@ -31,9 +50,10 @@
         <record model="ir.ui.view" id="don_vi_search">
             <field name="model">don_vi</field>
             <field name="arch" type="xml">
-                <search>
+                <search string="Tìm đơn vị">
                     <field name="ma_don_vi"/>
                     <field name="ten_don_vi"/>
+                    <field name="don_vi_cha_id"/>
                 </search>
             </field>
         </record>
@@ -42,9 +62,7 @@
             <field name="name">Đơn vị</field>
             <field name="res_model">don_vi</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref = "don_vi_search"/>
+            <field name="search_view_id" ref="don_vi_search"/>
         </record>
     </data>
 </odoo>
-        
-    

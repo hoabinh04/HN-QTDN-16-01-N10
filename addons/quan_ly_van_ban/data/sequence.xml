@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_van_ban" model="ir.sequence">
+            <field name="name">Số hiệu văn bản tự động</field>
+            <field name="code">van_ban.code</field>
+            <field name="prefix">VB/%(year)s/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

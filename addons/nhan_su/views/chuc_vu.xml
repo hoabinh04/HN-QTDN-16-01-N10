@@ -2,15 +2,17 @@
 <odoo>
     <data>
         <record id="view_chuc_vu_form" model="ir.ui.view">
-            <field name="name">chuc_vu</field>
+            <field name="name">chuc.vu.form</field>
             <field name="model">chuc_vu</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Chức vụ">
                     <sheet>
-                        <div class="oe_read_only" style="font-size:25px">Chức vụ</div>
-                        <group col="4" string="Thông tin chung">
+                        <group>
                             <field name="ma_chuc_vu"/>
                             <field name="ten_chuc_vu"/>
+                        </group>
+                        <group string="Mô tả">
+                            <field name="mo_ta"/>
                         </group>
                     </sheet>
                 </form>
@@ -18,10 +20,10 @@
         </record>
 
         <record id="view_chuc_vu_tree" model="ir.ui.view">
-            <field name="name">chuc_vu</field>
+            <field name="name">chuc.vu.tree</field>
             <field name="model">chuc_vu</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Chức vụ">
                     <field name="ma_chuc_vu"/>
                     <field name="ten_chuc_vu"/>
                 </tree>
@@ -31,7 +33,7 @@
         <record model="ir.ui.view" id="chuc_vu_search">
             <field name="model">chuc_vu</field>
             <field name="arch" type="xml">
-                <search>
+                <search string="Tìm chức vụ">
                     <field name="ma_chuc_vu"/>
                     <field name="ten_chuc_vu"/>
                 </search>
@@ -42,9 +44,7 @@
             <field name="name">Chức vụ</field>
             <field name="res_model">chuc_vu</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref = "chuc_vu_search"/>
+            <field name="search_view_id" ref="chuc_vu_search"/>
         </record>
     </data>
 </odoo>
-        
-    

@@ -2,16 +2,29 @@
 <odoo>
     <data>
         <record id="view_danh_sach_chung_chi_bang_cap_form" model="ir.ui.view">
-            <field name="name">danh_sach_chung_chi_bang_cap</field>
+            <field name="name">danh.sach.chung.chi.bang.cap.form</field>
             <field name="model">danh_sach_chung_chi_bang_cap</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Chứng chỉ/Bằng cấp của nhân viên">
                     <sheet>
-                        <div class="oe_read_only" style="font-size:25px">Danh sách chứng chỉ, bằng cấp</div>
-                        <group col="4" string="Thông tin chung">
-                            <field name="nhan_vien_id"/>
-                            <field name="ma_dinh_danh"/>
-                            <field name="chung_chi_bang_cap_id"/>
+                        <group>
+                            <group string="Nhân viên">
+                                <field name="nhan_vien_id"/>
+                                <field name="ma_dinh_danh" readonly="1"/>
+                                <field name="tuoi" readonly="1"/>
+                            </group>
+                            <group string="Chứng chỉ/Bằng cấp">
+                                <field name="chung_chi_bang_cap_id"/>
+                                <field name="so_hieu"/>
+                                <field name="noi_cap"/>
+                                <field name="ngay_cap"/>
+                                <field name="ngay_het_han"/>
+                                <field name="trang_thai" readonly="1"/>
+                                <field name="ten_tep" invisible="1"/>
+                                <field name="tep_dinh_kem" filename="ten_tep"/>
+                            </group>
+                        </group>
+                        <group string="Ghi chú">
                             <field name="ghi_chu"/>
                         </group>
                     </sheet>
@@ -20,14 +33,18 @@
         </record>
 
         <record id="view_danh_sach_chung_chi_bang_cap_tree" model="ir.ui.view">
-            <field name="name">danh_sach_chung_chi_bang_cap</field>
+            <field name="name">danh.sach.chung.chi.bang.cap.tree</field>
             <field name="model">danh_sach_chung_chi_bang_cap</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Chứng chỉ/Bằng cấp của nhân viên">
                     <field name="nhan_vien_id"/>
                     <field name="ma_dinh_danh"/>
                     <field name="chung_chi_bang_cap_id"/>
-                    <field name="ghi_chu"/>
+                    <field name="so_hieu"/>
+                    <field name="noi_cap"/>
+                    <field name="ngay_cap"/>
+                    <field name="ngay_het_han"/>
+                    <field name="trang_thai"/>
                 </tree>
             </field>
         </record>
@@ -35,22 +52,27 @@
         <record model="ir.ui.view" id="danh_sach_chung_chi_bang_cap_search">
             <field name="model">danh_sach_chung_chi_bang_cap</field>
             <field name="arch" type="xml">
-                <search>
+                <search string="Tìm chứng chỉ/bằng cấp nhân viên">
                     <field name="nhan_vien_id"/>
                     <field name="ma_dinh_danh"/>
                     <field name="chung_chi_bang_cap_id"/>
-                    <field name="ghi_chu"/>
+                    <field name="so_hieu"/>
+                    <filter string="Còn hiệu lực" name="valid" domain="[('trang_thai', '=', 'valid')]"/>
+                    <filter string="Hết hiệu lực" name="expired" domain="[('trang_thai', '=', 'expired')]"/>
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Nhân viên" name="group_nhan_vien" context="{'group_by': 'nhan_vien_id'}"/>
+                        <filter string="Chứng chỉ/Bằng cấp" name="group_chung_chi" context="{'group_by': 'chung_chi_bang_cap_id'}"/>
+                        <filter string="Trạng thái" name="group_trang_thai" context="{'group_by': 'trang_thai'}"/>
+                    </group>
                 </search>
             </field>
         </record>
 
         <record id="action_danh_sach_chung_chi_bang_cap" model="ir.actions.act_window">
-            <field name="name">Danh sách chứng chỉ bằng cấp</field>
+            <field name="name">Chứng chỉ/Bằng cấp nhân viên</field>
             <field name="res_model">danh_sach_chung_chi_bang_cap</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref = "danh_sach_chung_chi_bang_cap_search"/>
+            <field name="search_view_id" ref="danh_sach_chung_chi_bang_cap_search"/>
         </record>
     </data>
 </odoo>
-        
-    

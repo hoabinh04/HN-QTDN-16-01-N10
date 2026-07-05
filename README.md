@@ -100,4 +100,7 @@ Người sử dụng truy cập theo đường dẫn _http://localhost:8069/_ đ
 
 ---
 
-    
+## 🌐 6. Luồng nghiệp vụ kết hợp & Điểm tích hợp HRM (Mức 1 & Mức 2)
+Sơ đồ quy trình nghiệp vụ End-to-End được lưu trữ tại [docs/business-flow/NhomXX_BusinessFlow_TenDeTai.png](docs/business-flow/NhomXX_BusinessFlow_TenDeTai.png).
+* **Mô tả quy trình**: Mô tả chu trình khép kín từ tiếp cận Khách hàng tiềm năng (Lead) -> Nâng cấp thành Khách hàng chính thức -> Tự động hóa tạo Hợp đồng kinh tế -> Phê duyệt & Ban hành Văn bản liên quan -> Tự động hóa ghi nhận lịch sử tương tác của Khách hàng.
+* **Các module tham gia**: **Nhân sự (`nhan_su`)** (dữ liệu nhân viên gốc), **Khách hàng (`khach_hang`)**, và **Quản lý Văn bản (`quan_ly_van_ban`)**.

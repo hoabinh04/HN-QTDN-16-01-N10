@@ -1,57 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_van_ban_di_form" model="ir.ui.view">
-            <field name="name">van_ban_di</field>
-            <field name="model">van_ban_di</field>
+        <record id="view_van_ban_tree" model="ir.ui.view">
+            <field name="name">van_ban.tree</field>
+            <field name="model">quan_ly_van_ban</field>
             <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <div class="oe_read_only" style="font-size:25px">Văn bản đến</div>
-                        <group col="4" string="Thông tin chung">
-                            <field name="ten_van_ban"/>
-                            <field name="so_van_ban_di"/>
-                            <field name="so_hieu_van_ban"/>
-                            <field name="noi_nhan"/>
-                        </group>
-                    </sheet>
-                    
-                </form>
-            </field>
-        </record>
-
-        <record id="view_van_ban_di_tree" model="ir.ui.view">
-            <field name="name">van_ban_di</field>
-            <field name="model">van_ban_di</field>
-            <field name="arch" type="xml">
-                <tree>
+                <tree string="Danh sách văn bản" decoration-info="trang_thai in ['cho_duyet', 'dang_xu_ly']" decoration-success="trang_thai in ['da_ky', 'hoan_tat']">
+                    <field name="so_hieu"/>
                     <field name="ten_van_ban"/>
-                    <field name="so_van_ban_di"/>
-                    <field name="so_hieu_van_ban"/>
-                    <field name="noi_nhan"/>
+                    <field name="luong_van_ban" widget="badge" decoration-info="luong_van_ban == 'den'" decoration-warning="luong_van_ban == 'di'"/>
+                    <field name="hinh_thuc_van_ban" widget="badge"/>
+                    <field name="ngay_ban_hanh"/>
+                    <field name="trang_thai" widget="badge" decoration-success="trang_thai in ['da_ky', 'hoan_tat']" decoration-warning="trang_thai in ['cho_duyet', 'dang_xu_ly']"/>
                 </tree>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="van_ban_di_search">
-            <field name="model">van_ban_di</field>
+        <record id="view_van_ban_search" model="ir.ui.view">
+            <field name="name">quan_ly_van_ban.search</field>
+            <field name="model">quan_ly_van_ban</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="ten_van_ban"/>
-                    <field name="so_van_ban_di"/>
-                    <field name="so_hieu_van_ban"/>
-                    <field name="noi_nhan"/>
+                    <field name="ten_van_ban" filter_domain="['|', ('ten_van_ban', 'ilike', self), ('so_hieu', 'ilike', self)]"/>
+                    <filter string="Văn bản ĐẾN" name="den" domain="[('luong_van_ban', '=', 'den')]"/>
+                    <filter string="Văn bản ĐI" name="di" domain="[('luong_van_ban', '=', 'di')]"/>
+                    <group expand="0" string="Gom nhóm">
+                        <filter string="Loại văn bản" name="group_luong" context="{'group_by': 'luong_van_ban'}"/>
+                    </group>
                 </search>
             </field>
         </record>
+        <record id="view_van_ban_di_form" model="ir.ui.view">
+            <field name="name">van_ban.di.form</field>
+            <field name="model">quan_ly_van_ban</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_confirm" string="Trình duyệt" type="object" class="oe_highlight" 
+                                attrs="{'invisible': [('trang_thai', '!=', 'du_thao')]}"/>
+                        
+                        <button name="action_done" string="Ký/Ban hành" type="object" class="oe_highlight" 
+                                attrs="{'invisible': [('trang_thai', '!=', 'cho_duyet')]}"/>
+                        
+                        <button name="action_cancel" string="Hủy bỏ" type="object" 
+                                attrs="{'invisible': [('trang_thai', 'in', ['da_ky', 'huy'])]}"/>
 
-        <record id="action_van_ban_di" model="ir.actions.act_window">
-            <field name="name">Văn bản đến</field>
-            <field name="res_model">van_ban_di</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref = "van_ban_di_search"/>
+                        <field name="trang_thai" widget="statusbar" 
+                               statusbar_visible="du_thao,cho_duyet,da_ky" clickable="0"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="so_hieu"/></h1>
+                            <label for="ten_van_ban" class="oe_edit_only" string="Trích yếu nội dung đi"/>
+                            <h2><field name="ten_van_ban" placeholder="Ví dụ: Quyết định bổ nhiệm..." attrs="{'readonly': [('trang_thai', '=', 'da_ky')]}"/></h2>
+                        </div>
+                        <field name="display_info_van_ban" widget="html" readonly="1" nolabel="1"/>
+                        <group>
+                            <group string="Thông tin nghiệp vụ &amp; Đối tượng">
+                                <field name="luong_van_ban" string="Loại văn bản" readonly="1" force_save="1"/>
+                                <field name="hinh_thuc_van_ban" string="Thể loại" attrs="{'readonly': [('trang_thai', '=', 'hoan_tat')]}"/>
+                                <field name="nhan_vien_id" 
+                                    string="Người tiếp nhận/Soạn thảo" 
+                                    options="{'no_create': True}" 
+                                    attrs="{'readonly': [('trang_thai', '=', 'hoan_tat')]}"/>
+                                <field name="khach_hang_id" 
+                                    string="Cơ quan gửi/Đối tác" 
+                                    options="{'no_create': True}" 
+                                    attrs="{
+                                        'invisible': [('luong_van_ban', '=', 'noi_bo')], 
+                                        'required': [('luong_van_ban', '!=', 'noi_bo')],
+                                        'readonly': [('trang_thai', '=', 'hoan_tat')]
+                                    }"/>
+                            </group>
+
+                            <group string="Tệp tin &amp; Thời gian">
+                                <field name="file_van_ban" filename="file_name" attrs="{'readonly': [('trang_thai', '=', 'hoan_tat')]}"/>
+                                <field name="file_name" invisible="1"/>
+                                <field name="ngay_ban_hanh" string="Ngày ban hành" attrs="{'readonly': [('trang_thai', '=', 'hoan_tat')]}"/>
+                                <field name="ngay_hieu_luc" attrs="{'readonly': [('trang_thai', '=', 'hoan_tat')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Nội dung ghi chú">
+                                <field name="ghi_chu" placeholder="Nhập tóm tắt văn bản đi..." attrs="{'readonly': [('trang_thai', '=', 'da_ky')]}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
         </record>
     </data>
 </odoo>
-        
-    

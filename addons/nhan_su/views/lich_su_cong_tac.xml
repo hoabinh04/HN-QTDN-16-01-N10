@@ -2,17 +2,26 @@
 <odoo>
     <data>
         <record id="view_lich_su_cong_tac_form" model="ir.ui.view">
-            <field name="name">lich_su_cong_tac</field>
+            <field name="name">lich.su.cong.tac.form</field>
             <field name="model">lich_su_cong_tac</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Lịch sử công tác">
                     <sheet>
-                        <div class="oe_read_only" style="font-size:25px">Lịch sử công tác</div>
-                        <group col="4" string="Thông tin chung">
-                            <field name="nhan_vien_id"/>
-                            <field name="chuc_vu_id"/>
-                            <field name="don_vi_id"/>
-                            <field name="loai_chuc_vu"/>
+                        <group>
+                            <group string="Nhân sự">
+                                <field name="nhan_vien_id"/>
+                                <field name="don_vi_id"/>
+                                <field name="chuc_vu_id"/>
+                                <field name="loai_chuc_vu"/>
+                            </group>
+                            <group string="Thời gian">
+                                <field name="ngay_bat_dau"/>
+                                <field name="ngay_ket_thuc"/>
+                                <field name="dang_hieu_luc" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Ghi chú">
+                            <field name="ghi_chu"/>
                         </group>
                     </sheet>
                 </form>
@@ -20,14 +29,17 @@
         </record>
 
         <record id="view_lich_su_cong_tac_tree" model="ir.ui.view">
-            <field name="name">lich_su_cong_tac</field>
+            <field name="name">lich.su.cong.tac.tree</field>
             <field name="model">lich_su_cong_tac</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Lịch sử công tác">
                     <field name="nhan_vien_id"/>
-                    <field name="chuc_vu_id"/>
                     <field name="don_vi_id"/>
+                    <field name="chuc_vu_id"/>
                     <field name="loai_chuc_vu"/>
+                    <field name="ngay_bat_dau"/>
+                    <field name="ngay_ket_thuc"/>
+                    <field name="dang_hieu_luc"/>
                 </tree>
             </field>
         </record>
@@ -35,11 +47,17 @@
         <record model="ir.ui.view" id="lich_su_cong_tac_search">
             <field name="model">lich_su_cong_tac</field>
             <field name="arch" type="xml">
-                <search>
+                <search string="Tìm lịch sử công tác">
                     <field name="nhan_vien_id"/>
                     <field name="chuc_vu_id"/>
                     <field name="don_vi_id"/>
-                    <field name="loai_chuc_vu"/>
+                    <filter string="Đang hiệu lực" name="dang_hieu_luc" domain="[('dang_hieu_luc', '=', True)]"/>
+                    <filter string="Chức vụ chính" name="main" domain="[('loai_chuc_vu', '=', 'main')]"/>
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Nhân viên" name="group_nhan_vien" context="{'group_by': 'nhan_vien_id'}"/>
+                        <filter string="Đơn vị" name="group_don_vi" context="{'group_by': 'don_vi_id'}"/>
+                        <filter string="Chức vụ" name="group_chuc_vu" context="{'group_by': 'chuc_vu_id'}"/>
+                    </group>
                 </search>
             </field>
         </record>
@@ -48,9 +66,7 @@
             <field name="name">Lịch sử công tác</field>
             <field name="res_model">lich_su_cong_tac</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref = "lich_su_cong_tac_search"/>
+            <field name="search_view_id" ref="lich_su_cong_tac_search"/>
         </record>
     </data>
 </odoo>
-        
-    
